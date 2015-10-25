@@ -1,0 +1,5 @@
+zetup >= 0.2.25
+moretools >= 0.1.7
+modeled >= 0.1.7
+netconf >= 0.3.1
+pyang

@@ -1,0 +1,15 @@
+include COPYING*
+
+include zetup.ini
+
+include VERSION
+include requirements.txt
+
+include README.md
+
+include tox.ini
+
+exclude modeled/__init__.py
+
+exclude .hg*
+exclude *.yml
