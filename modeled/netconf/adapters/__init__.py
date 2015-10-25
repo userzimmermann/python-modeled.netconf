@@ -19,13 +19,12 @@
 # along with python-modeled.netconf.
 # If not, see <http://www.gnu.org/licenses/>.
 
-"""modeled.netconf
-
-Extremely Pythonized NETCONF and YANG
+"""modeled.netconf.adapters
 
 .. moduleauthor:: Stefan Zimmermann <zimmermann.code@gmail.com>
 """
 
-from .adapters import YANGModule, YANGContainer, rpc
+from .container import YANGContainer
+from .module import YANGModule, rpc
 
 __all__ = ['YANGModule', 'YANGContainer', 'rpc']
