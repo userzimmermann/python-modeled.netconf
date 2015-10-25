@@ -26,6 +26,7 @@
 from six import with_metaclass
 from inspect import getmembers, getargspec
 from datetime import date
+import backports.socketpair
 
 from moretools import decamelize
 
