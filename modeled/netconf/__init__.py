@@ -25,6 +25,7 @@ Extremely Pythonized NETCONF and YANG
 
 .. moduleauthor:: Stefan Zimmermann <zimmermann.code@gmail.com>
 """
+__import__('zetup').toplevel(__name__)
 
 from .adapters import YANGModule, YANGContainer, rpc
 
