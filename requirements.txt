@@ -1,4 +1,5 @@
 zetup >= 0.2.25
+backports.socketpair >= 3.5.0
 moretools >= 0.1.7
 modeled >= 0.1.7
 netconf >= 0.3.1
