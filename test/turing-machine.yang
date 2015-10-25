@@ -1,0 +1,64 @@
+module turing-machine {
+  namespace "https://netconf.modeled.io/turing-machine";
+  prefix tm;
+
+  revision 2015-10-24;
+
+  container turing-machine {
+    leaf state {
+      type int64;
+    }
+    leaf head-position {
+      type int64;
+    }
+    list tape {
+      key "index";
+      leaf index {
+        type int64;
+      }
+      leaf item {
+        type string;
+      }
+    }
+    list transitions {
+      key "key";
+      leaf key {
+        type string;
+      }
+      container item {
+        container input {
+          leaf state {
+            type int64;
+          }
+          leaf symbol {
+            type string;
+          }
+        }
+        container output {
+          leaf state {
+            type int64;
+          }
+          leaf symbol {
+            type string;
+          }
+          leaf head-move {
+            type string;
+          }
+        }
+      }
+    }
+  }
+  rpc initialize {
+    description
+      "Initialize the Turing Machine.";
+    input {
+      leaf tape-content {
+        type string;
+      }
+    }
+  }
+  rpc run {
+    description
+      "Start the Turing Machine operation.";
+  }
+}

@@ -1,0 +1,25 @@
+# A simple unary number addition program
+# for the modeled TuringMachine example class
+# defined in ./turing_machine.py
+
+"left summand":
+  - {state:    0, symbol:    1}
+  - {state: null, symbol: null}
+"separator":
+  - {state:    0, symbol:    0}
+  - {state:    1, symbol:    1}
+"right summand":
+  - {state:    1, symbol:    1}
+  - {state: null, symbol: null}
+"right end":
+  - {state:    1, symbol: null}
+  - {state:    2, symbol: null, head_move: L}
+"write separator":
+  - {state:    2, symbol:    1}
+  - {state:    3, symbol:    0, head_move: L}
+"go home":
+  - {state:    3, symbol:    1}
+  - {state: null, symbol: null, head_move: L}
+"final step":
+  - {state:    3, symbol: null}
+  - {state:    4, symbol: null}
