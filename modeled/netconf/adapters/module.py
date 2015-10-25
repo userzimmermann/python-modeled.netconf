@@ -42,15 +42,15 @@ from .container import YANGContainer, YANGContainerMeta
 __all__ = ['YANGModule', 'rpc']
 
 
-def rpc(func=None, returntype=None, argtypes=None):
+def rpc(func=None, argtypes=None, returntype=None):
     if func is None:
         def rpc(func):
             global rpc
-            return rpc(func, returntype, argtypes)
+            return rpc(func, argtypes, returntype)
 
         return rpc
 
-    method = modeled.typed(func, returntype, argtypes)
+    method = modeled.typed(func, argtypes, returntype)
     method.__isnetconfrpc__ = True
     return method
 
