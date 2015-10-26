@@ -1,6 +1,6 @@
-"""test_adapters
+"""test_yang
 
-Test ``modeled.netconf`` YANG adapters.
+Test ``modeled.netconf.yang`` adapters.
 
 .. moduleauthor:: Stefan Zimmermann <zimmermann.code@gmail.com>
 """
@@ -9,7 +9,7 @@ from datetime import date
 from path import Path
 
 import modeled
-from modeled.netconf import YANGContainer, YANGModule, rpc
+from modeled.netconf import YANG, YANGContainer, rpc
 
 import pyang
 import pyang.plugin
@@ -28,7 +28,7 @@ for plugin in pyang.plugin.plugins:
 del plugin
 
 
-def test_container_class():
+def test_yang_container_adapter_class():
     """Check ``modeled.netconf.YANGContainer`` adapter class.
     """
     assert issubclass(YANGContainer, modeled.Adapter)
@@ -39,22 +39,22 @@ def test_container_class():
         assert callable(getattr(YANGContainer, methodname))
 
 
-def test_module_class():
-    """Check ``modeled.netconf.YANGModule`` adapter class.
+def test_yang_adapter_class():
+    """Check ``modeled.netconf.YANG`` adapter class.
     """
-    assert issubclass(YANGModule, YANGContainer)
+    assert issubclass(YANG, YANGContainer)
 
     for name in PYANG_PLUGINS:
         methodname = 'to_' + name
-        assert methodname in dir(YANGModule)
-        assert callable(getattr(YANGModule, methodname))
+        assert methodname in dir(YANG)
+        assert callable(getattr(YANG, methodname))
 
 
-def test_module(turing_machine_cls, turing_machine_netconf_namespace):
-    """Test ``modeled.netconf.YANGModule`` adapter
+def test_yang_adapter(turing_machine_cls, turing_machine_netconf_namespace):
+    """Test ``modeled.netconf.YANG`` adapter
        with the modeled `turing_machine_cls` fixture.
     """
-    class TM(YANGModule[turing_machine_cls]):
+    class TM(YANG[turing_machine_cls]):
 
         @rpc(argtypes={'tape_content': str})
         def initialize(self, tape_content):
@@ -71,7 +71,7 @@ def test_module(turing_machine_cls, turing_machine_netconf_namespace):
             TuringMachine.run(self)
 
     assert issubclass(TM, turing_machine_cls)
-    assert issubclass(TM, YANGModule)
+    assert issubclass(TM, YANG)
 
     with open(TEST_PATH / 'turing-machine.yang') as f:
         assert f.read() == TM.to_yang(
