@@ -19,12 +19,30 @@
 # along with python-modeled.netconf.
 # If not, see <http://www.gnu.org/licenses/>.
 
-"""modeled.netconf.adapters
+"""modeled.netconf.yang.common
+
+Common definitions for ``modeled.netconf`` YANG adapter classes.
 
 .. moduleauthor:: Stefan Zimmermann <zimmermann.code@gmail.com>
 """
 
-from .container import YANGContainer
-from .module import YANGModule, rpc
+import pyang.plugin
 
-__all__ = ['YANGModule', 'YANGContainer', 'rpc']
+__all__ = ['TYPES', 'PYANG_PLUGINS']
+
+
+# gets filled with all availabe pyang output format plugins
+PYANG_PLUGINS = {}
+
+# register pyang plugins according to code in pyang script
+pyang.plugin.init([])
+for plugin in pyang.plugin.plugins:
+    plugin.add_output_format(PYANG_PLUGINS)
+del plugin
+
+
+# map Python types to YANG types
+TYPES = {
+    int: 'int64',
+    str: 'string'
+}

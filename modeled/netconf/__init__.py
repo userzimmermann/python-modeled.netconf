@@ -27,6 +27,6 @@ Extremely Pythonized NETCONF and YANG
 """
 __import__('zetup').toplevel(__name__)
 
-from .adapters import YANGModule, YANGContainer, rpc
+from .yang import YANG, YANGContainer, rpc
 
-__all__ = ['YANGModule', 'YANGContainer', 'rpc']
+__all__ = ['YANG', 'YANGContainer', 'rpc']

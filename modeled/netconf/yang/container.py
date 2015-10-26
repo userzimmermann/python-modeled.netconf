@@ -19,7 +19,10 @@
 # along with python-modeled.netconf.
 # If not, see <http://www.gnu.org/licenses/>.
 
-"""modeled.netconf.adapters.container
+"""modeled.netconf.yang.container
+
+Provides ``modeled.netconf.YANGContainer`` adapter class,
+which wraps ``modeled.object`` classes as YANG containers.
 
 .. moduleauthor:: Stefan Zimmermann <zimmermann.code@gmail.com>
 """
@@ -44,13 +47,13 @@ __all__ = ['YANGContainer']
 class DummyRepository(pyang.Repository):
     """Dummy implementation of abstract :class:`pyang.Repository`
        for :class:`pyang.Context` instantiations
-       created by :class:`modeled.netconf.YANG`'s metaclass.
+       created by :meth:`modeled.netconf.YANGContainerMeta.to`.
     """
     def get_modules_and_revisions(self, ctx):
         """Just a must-have dummy method, returning empty ``tuple``.
 
         - Modules are always explicitly given to pyang output plugins
-          by :class:`modeled.netconf.YANG`'s metaclass.
+          by :meth:`modeled.netconf.YANGContainerMeta.to`.
         """
         return ()
 
