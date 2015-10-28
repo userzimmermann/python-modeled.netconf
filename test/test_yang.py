@@ -76,4 +76,4 @@ def test_yang_adapter(turing_machine_cls, turing_machine_netconf_namespace):
     with open(TEST_PATH / 'turing-machine.yang') as f:
         assert f.read() == TM.to_yang(
             namespace=turing_machine_netconf_namespace,
-            revision=str(date(2015, 10, 24)))
+            revision=str(date(2015, 10, 28)))

@@ -1,8 +1,8 @@
 module turing-machine {
-  namespace "https://netconf.modeled.io/turing-machine";
+  namespace "http://modeled.netconf/turing-machine";
   prefix tm;
 
-  revision 2015-10-24;
+  revision 2015-10-28;
 
   container turing-machine {
     leaf state {
@@ -12,20 +12,20 @@ module turing-machine {
       type int64;
     }
     list tape {
-      key "index";
-      leaf index {
+      key "cell";
+      leaf cell {
         type int64;
       }
-      leaf item {
+      leaf symbol {
         type string;
       }
     }
-    list transitions {
-      key "key";
-      leaf key {
+    list program {
+      key "name";
+      leaf name {
         type string;
       }
-      container item {
+      container rule {
         container input {
           leaf state {
             type int64;

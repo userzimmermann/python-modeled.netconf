@@ -10,24 +10,31 @@ A modeled ``TuringMachine`` example class for ``modeled.netconf`` tests.
 from __future__ import print_function
 
 import modeled
+from modeled import member
 
 __all__ = ['TuringMachine']
 
 
 class Input(modeled.object):
-    state = modeled.member[int]()
-    symbol = modeled.member[str]()
+    """The input part of a Turing Machine program rule.
+    """
+    state = member[int]()
+    symbol = member[str]()
 
 
 class Output(modeled.object):
-    state = modeled.member[int]()
-    symbol = modeled.member[str]()
-    head_move = modeled.member[str]['L', 'R']('R')
+    """The output part of a Turing Machine program rule.
+    """
+    state = member[int]()
+    symbol = member[str]()
+    head_move = member[str]['L', 'R']('R')
 
 
-class Transition(modeled.object):
-    input = modeled.member[Input]()
-    output = modeled.member[Output]()
+class Rule(modeled.object):
+    """A Turing Machine program rule.
+    """
+    input = member[Input]()
+    output = member[Output]()
 
     def __init__(self, input, output):
         """Expects `input` as `output` as mappings.
@@ -40,35 +47,48 @@ class Transition(modeled.object):
 
 
 class TuringMachine(modeled.object):
-    state = modeled.member[int]()
-    head_position = modeled.member[int]()
-    tape = modeled.member.list[str]()
-    transitions = modeled.member.dict[str, Transition]()
+    state = member[int]()
+    head_position = member[int]()
 
-    def __init__(self, transitions):
-        modeled.object.__init__(self, transitions={})
-        transitions = dict(transitions)
-        for name, (input, output) in transitions.items():
-            self.transitions[name] = Transition(input, output)
+    # the list of symbols on the input/output tape
+    tape = member.list[str](indexname='cell', itemname='symbol')
+
+    # the machine program as named rules
+    program = member.dict[str, Rule](keyname='name')
+
+    def __init__(self, program):
+        """Create a Turing Machine with the given `program`.
+        """
+        modeled.object.__init__(self, program={})
+        program = dict(program)
+        for name, (input, output) in program.items():
+            self.program[name] = Rule(input, output)
 
     def run(self):
+        """Start the Turing Machine.
+
+        - Runs until no matching input part for current state and tape symbol
+          can be found in the program rules.
+        """
+        print(" %s  %d" % (''.join(self.tape), self.state))
         while True:
-            if 0 <= self.head_position < len(self.tape):
-                symbol = self.tape[self.head_position]
+            pos = self.head_position
+            if 0 <= pos < len(self.tape):
+                symbol = self.tape[pos]
             else:
                 symbol = None
-            for name, trans in self.transitions.items():
-                if self.state == trans.input.state \
-                        and symbol == trans.input.symbol:
-                    print(self.tape, end=" ")
-                    if trans.output.state is not None:
-                        self.state = trans.output.state
-                    if trans.output.symbol is not None:
-                        self.tape[self.head_position] \
-                            = trans.output.symbol
-                    self.head_position \
-                        += {'L': -1, 'R': 1}[trans.output.head_move]
-                    print("-->", self.tape)
+            for name, rule in self.program.items():
+                if (self.state, symbol) == (rule.input.state, rule.input.symbol):
+                    print("%s^%s --> %s" % (
+                        ' ' * (pos + 1),
+                        ' ' * (len(self.tape) - pos),
+                        name))
+                    if rule.output.state is not None:
+                        self.state = rule.output.state
+                    if rule.output.symbol is not None:
+                        self.tape[pos] = rule.output.symbol
+                    self.head_position += {'L': -1, 'R': 1}[rule.output.head_move]
+                    print(" %s  %d" % (''.join(self.tape), self.state))
                     break
             else:
                 break

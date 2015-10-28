@@ -33,7 +33,7 @@ def turing_machine_netconf_namespace(request):
     """The NETCONF namespace to use for creating a YANG definition
        for the modeled ``TuringMachine`` example class.
     """
-    return 'https://netconf.modeled.io/turing-machine'
+    return 'http://modeled.netconf/turing-machine'
 
 
 @pytest.fixture(scope='module')
