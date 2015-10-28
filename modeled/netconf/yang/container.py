@@ -34,7 +34,7 @@ from optparse import OptionParser
 from moretools import decamelize
 
 import modeled
-from modeled import ismodeledclass, ismodeledlistclass, ismodeleddictclass
+from modeled import ismodeledclass
 
 import pyang
 from pyang.statements import Statement
@@ -69,37 +69,10 @@ class YANGContainerMeta(modeled.AdapterMeta):
         """
         return decamelize(cls.mclass.model.name, joiner='-')
 
-    def member_to_statement(cls, mtype, yangname, parent=None):
+    def mtype_to_statement(cls, mtype, yangname, parent=None):
         if ismodeledclass(mtype):
             return YANGContainer[mtype].to_statement(
                 yangname=yangname, parent=parent)
-
-        if ismodeledlistclass(mtype):
-            list_ = Statement(None, parent, None, 'list', yangname)
-            key = Statement(None, list_, None, 'key', 'index')
-            list_.substmts.append(key)
-            leaf = Statement(None, list_, None, 'leaf', 'index')
-            list_.substmts.append(leaf)
-            type_ = Statement(None, leaf, None, 'type', TYPES[int])
-            leaf.substmts.append(type_)
-            statement = cls.member_to_statement(
-                mtype.mtype, yangname='item', parent=list_)
-            list_.substmts.append(statement)
-            return list_
-
-        if ismodeleddictclass(mtype):
-            list_ = Statement(None, parent, None, 'list', yangname)
-            key = Statement(None, list_, None, 'key', 'key')
-            list_.substmts.append(key)
-            leaf = Statement(None, list_, None, 'leaf', 'key')
-            list_.substmts.append(leaf)
-            type_ = Statement(
-                None, leaf, None, 'type', TYPES[mtype.mtype.mtypes[0]])
-            leaf.substmts.append(type_)
-            statement = cls.member_to_statement(
-                mtype.mtype.mtypes[1], yangname='item', parent=list_)
-            list_.substmts.append(statement)
-            return list_
 
         leaf = Statement(None, parent, None, 'leaf', yangname)
         # if member.title:
@@ -109,6 +82,45 @@ class YANGContainerMeta(modeled.AdapterMeta):
         type_ = Statement(None, leaf, None, 'type', TYPES[mtype])
         leaf.substmts.append(type_)
         return leaf
+
+    def member_to_statement(cls, member, yangname, parent=None):
+        if ismodeledclass(member.mtype):
+            return YANGContainer[member.mtype].to_statement(
+                yangname=yangname, parent=parent)
+
+        if member.islist():
+            list_ = Statement(None, parent, None, 'list', yangname)
+            yangindexname = member.indexname.replace('_', '-')
+            key = Statement(None, list_, None, 'key', yangindexname)
+            list_.substmts.append(key)
+            leaf = Statement(None, list_, None, 'leaf', yangindexname)
+            list_.substmts.append(leaf)
+            type_ = Statement(None, leaf, None, 'type', TYPES[int])
+            leaf.substmts.append(type_)
+            yangitemname = member.itemname.replace('_', '-')
+            statement = cls.mtype_to_statement(
+                member.itemtype, yangname=yangitemname, parent=list_)
+            list_.substmts.append(statement)
+            return list_
+
+        if member.isdict():
+            list_ = Statement(None, parent, None, 'list', yangname)
+            yangkeyname = member.keyname.replace('_', '-')
+            key = Statement(None, list_, None, 'key', yangkeyname)
+            list_.substmts.append(key)
+            leaf = Statement(None, list_, None, 'leaf', yangkeyname)
+            list_.substmts.append(leaf)
+            type_ = Statement(
+                None, leaf, None, 'type', TYPES[member.keytype])
+            leaf.substmts.append(type_)
+            yangvaluename = member.valuename.replace('_', '-')
+            statement = cls.mtype_to_statement(
+                member.valuetype, yangname=yangvaluename, parent=list_)
+            list_.substmts.append(statement)
+            return list_
+
+        return cls.mtype_to_statement(
+            member.mtype, yangname=yangname, parent=parent)
 
     def to_statement(cls, yangname=None, parent=None):
         """Get YANG container as :class:`pyang.statement.Statement` instance,
@@ -125,7 +137,7 @@ class YANGContainerMeta(modeled.AdapterMeta):
         for name, member in cls.mclass.model.members:
             yangname = name.replace('_', '-')
             statement = cls.member_to_statement(
-                member.mtype, yangname=yangname, parent=container)
+                member, yangname=yangname, parent=container)
             container.substmts.append(statement)
         return container
 
