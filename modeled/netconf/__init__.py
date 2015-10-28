@@ -1,6 +1,6 @@
 # python-modeled.netconf
 #
-# Extremely Pythonized NETCONF and YANG
+# Highly Pythonized NETCONF and YANG
 #
 # Copyright (C) 2015 Stefan Zimmermann <zimmermann.code@gmail.com>
 #
