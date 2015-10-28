@@ -127,7 +127,10 @@ class YANG(with_metaclass(YANGMeta, YANGContainer)):
 
     - Also uses wrapped class for main container definition.
     """
-    def serve(self, port, host_key, username, password):
+    def serve_netconf_ssh(self, port, host_key, username, password):
+        from netconf.server import \
+            NetconfSSHServer, SSHUserPassController, NetconfMethods
+
         cls = type(self)
         server_methods_clsattrs = {}
         for name, obj in getmembers(type(self)):
