@@ -34,9 +34,6 @@ import backports.socketpair
 
 from moretools import decamelize
 
-from netconf.server import \
-    NetconfSSHServer, SSHUserPassController, NetconfMethods
-
 from pyang.statements import Statement
 
 from .common import TYPES
@@ -107,8 +104,19 @@ class YANGMeta(YANGContainerMeta):
         return method
 
     def rpc_to_server_method(cls, method, minstance):
+        from lxml.etree import QName
+
+        rpcname = method.__name__.replace('_', '-')
+
         def server_method(self, unused_session, rpc, *unused_params):
-            method(minstance)
+            args = {}
+            for element in rpc.iterchildren():
+                if QName(element.tag).localname == rpcname:
+                    for rpcarg in element.iterchildren():
+                        name = QName(rpcarg.tag).localname
+                        args[name.replace('-', '_')] = rpcarg.text
+            result = method(minstance, **args)
+            return str(result) if result is not None else ''
 
         server_method.__name__ = 'rpc_' + method.__name__
         return server_method
