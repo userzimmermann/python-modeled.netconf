@@ -9,6 +9,7 @@ python:
 install:
   - pip install -r requirements.txt --upgrade
   - pip install zetup[commands] --upgrade
+  - pip install pyyaml --upgrade
   - pip install pytest --upgrade
   - pip install tox --upgrade
   - pip install -e .
