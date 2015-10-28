@@ -87,7 +87,7 @@ class YANGMeta(YANGContainerMeta):
                     for name in argspec.args[1:]:
                         yangname = name.replace('_', '-')
                         mtype = method.mtypes[name]
-                        statement = cls.mtype_to_leaf_statement(
+                        statement = cls.mtype_to_statement(
                             mtype, yangname=yangname, parent=input_)
                         input_.substmts.append(statement)
         return module
