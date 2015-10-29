@@ -1,13 +1,18 @@
-include COPYING*
+include COPYING
+include COPYING.LESSER
 
 include zetup.ini
 
 include VERSION
 include requirements.txt
 
+include README.ipynb
 include README.md
+include README.rst
 
 include tox.ini
+
+recursive-include test *.py *.yaml *.yang
 
 exclude modeled/__init__.py
 
