@@ -12,10 +12,21 @@ modeled.netconf
 
 
 
-|image0|
+|image0| |image1|
 
 .. |image0| image:: http://www.gnu.org/graphics/lgplv3-88x31.png
    :target: https://gnu.org/licenses/lgpl.html
+.. |image1| image:: https://img.shields.io/pypi/pyversions/modeled.netconf.svg
+   :target: https://python.org
+
+
+
+|image0| |image1|
+
+.. |image0| image:: https://img.shields.io/pypi/v/modeled.netconf.svg
+   :target: https://pypi.python.org/pypi/modeled.netconf
+.. |image1| image:: https://img.shields.io/pypi/dd/modeled.netconf.svg
+   :target: https://pypi.python.org/pypi/modeled.netconf
 
 
 

@@ -13,6 +13,15 @@
 
 [![](http://www.gnu.org/graphics/lgplv3-88x31.png)](
   https://gnu.org/licenses/lgpl.html)
+[![](https://img.shields.io/pypi/pyversions/modeled.netconf.svg)](
+  https://python.org)
+
+
+
+[![](https://img.shields.io/pypi/v/modeled.netconf.svg)](
+  https://pypi.python.org/pypi/modeled.netconf)
+[![](https://img.shields.io/pypi/dd/modeled.netconf.svg)](
+  https://pypi.python.org/pypi/modeled.netconf)
 
 
 
