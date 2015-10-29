@@ -18,22 +18,14 @@ TEST_PATH = Path(__file__).realpath().dirname()
 sys.path.insert(0, TEST_PATH)
 
 
-# load python module containing a modeled TuringMachine example class
-# from this directory
-# TURING_MACHINE_MODULE = load_module('turing_machine', *find_module(
-#     'turing_machine', [TEST_PATH]))
-
-
 @pytest.fixture(scope='module')
 def turing_machine_cls(request):
     """The modeled ``TuringMachine`` example class.
     """
-    # import from ./turing_machine.py
+    # import from ./turing_machine.py (test dir added to sys.path above)
     from turing_machine import TuringMachine
 
     return TuringMachine
-
-    # return TURING_MACHINE_MODULE.TuringMachine
 
 
 @pytest.fixture(scope='module')
