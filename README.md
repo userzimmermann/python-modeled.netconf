@@ -66,7 +66,8 @@ and not ready for productive use yet.
 It was automatically created from the
 [IPython](http://ipython.org) notebook **README.ipynb**
 in the **modeled.netconf** repository.
-You can also view it online (and download it) [here]().
+You can also view it online (and download it)
+[here](http://nbviewer.ipython.org/github/userzimmermann/python-modeled.netconf/blob/master/README.ipynb).
 
 
 
