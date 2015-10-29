@@ -4,6 +4,7 @@
 
 .. moduleauthor:: Stefan Zimmermann <zimmermann.code@gmail.com>
 """
+import sys
 from imp import find_module, load_module
 
 from path import Path
@@ -14,18 +15,25 @@ import pytest
 
 TEST_PATH = Path(__file__).realpath().dirname()
 
+sys.path.insert(0, TEST_PATH)
+
 
 # load python module containing a modeled TuringMachine example class
 # from this directory
-TURING_MACHINE_MODULE = load_module('turing_machine', *find_module(
-    'turing_machine', [TEST_PATH]))
+# TURING_MACHINE_MODULE = load_module('turing_machine', *find_module(
+#     'turing_machine', [TEST_PATH]))
 
 
 @pytest.fixture(scope='module')
 def turing_machine_cls(request):
     """The modeled ``TuringMachine`` example class.
     """
-    return TURING_MACHINE_MODULE.TuringMachine
+    # import from ./turing_machine.py
+    from turing_machine import TuringMachine
+
+    return TuringMachine
+
+    # return TURING_MACHINE_MODULE.TuringMachine
 
 
 @pytest.fixture(scope='module')
