@@ -58,12 +58,12 @@
 
 
 **WARNING**: This project is in an early alpha state
-and not ready for productive use yet.
+and therefore not production ready.
 
 
 
-**If you are reading a static document:**
-It was automatically created from the
+**INFO:**
+This document was automatically created from the
 [IPython](http://ipython.org) notebook **README.ipynb**
 in the **modeled.netconf** repository.
 You can also view it online (and download it)
@@ -446,6 +446,11 @@ create a `pyang.statement.Statement` tree
 (which **pyang** does internally on loading an input file)
 according to the typed members of the adapted modeled class.
 
+Every `.to_...()` method takes optional
+`revision` date and XML `prefix` and `namespace` arguments.
+If no `revision` is given,
+the current date will be used.
+
 The adapted class will be mapped to a YANG module
 and its main data container definition.
 Module and container name will be generated from the name
@@ -453,6 +458,16 @@ of the adapted modeled class
 by decapitalizing and joining its name parts with hyphens.
 YANG leaf names will be generated from modeled member names
 by replacing underscores with hyphens.
+`list` and `dict` members will be mapped to YANG list definitions.
+If members have other modeled classes as types,
+sub-containers will be defined.
+
+Type mapping is very simple in this early project stage.
+Only `int` and `str` are supported
+and no YANG typedefs are used.
+All containers and their contents are defined configurable
+(with write permissions).
+That will change soon...
 
 The result is a complete module definition text in the given format,
 like the default YANG format...
