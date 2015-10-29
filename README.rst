@@ -7,6 +7,8 @@ modeled.netconf
 
 -  https://bitbucket.org/userzimmermann/python-modeled.netconf
 -  https://github.com/userzimmermann/python-modeled.netconf
+-  https://gitlab.com/userzimmermann/python-modeled.netconf
+-  https://www.openhub.net/p/python-modeled\_netconf
 
 
 
@@ -14,6 +16,15 @@ modeled.netconf
 
 .. |image0| image:: http://www.gnu.org/graphics/lgplv3-88x31.png
    :target: https://gnu.org/licenses/lgpl.html
+
+
+
+|image0| |image1|
+
+.. |image0| image:: https://travis-ci.org/userzimmermann/python-modeled.netconf.svg?branch=master
+   :target: https://travis-ci.org/userzimmermann/python-modeled.netconf
+.. |image1| image:: https://ci.appveyor.com/api/projects/status/nqymmsa76qo90gdi?svg=true
+   :target: https://ci.appveyor.com/project/userzimmermann/python-modeled-netconf
 
 
 
@@ -31,10 +42,13 @@ Highly Pythonized NETCONF and YANG
 -  Directly start NETCONF servers from modeled YANG modules
 
 -  **TODO**:
--  Proper RPC namespace handling
--  Handle default NETCONF RPC methods like ``<get>`` or ``<get-config>``
--  Create NETCONF servers with multiple modeled YANG modules
--  Automagically create Pythonic NETCONF clients from YANG definitions
+
+   -  Proper RPC namespace handling
+   -  Handle default NETCONF RPC methods like ``<get>`` or
+      ``<get-config>``
+   -  Create NETCONF servers with multiple modeled YANG modules
+   -  Automagically create Pythonic NETCONF clients from YANG
+      definitions
 
 
 
@@ -428,11 +442,13 @@ like the default YANG format...
 .. code:: python
 
 
-    >>> print(YANG[TuringMachine].to_yang())
+    >>> print(YANG[TuringMachine].to_yang(
+    >>>     prefix='tm', namespace='http://modeled.netconf/turing-machine'))
     module turing-machine {
-      prefix yang[-turing-machine];
+      namespace "http://modeled.netconf/turing-machine";
+      prefix tm;
     
-      revision 2015-10-28;
+      revision 2015-10-29;
     
       container turing-machine {
         leaf state {
@@ -489,14 +505,15 @@ like the default YANG format...
 .. code:: python
 
 
-    >>> print(YANG[TuringMachine].to_yin(namespace='bla'))
+    >>> print(YANG[TuringMachine].to_yin(
+    >>>     prefix='tm', namespace='http://modeled.netconf/turing-machine'))
     <?xml version="1.0" encoding="UTF-8"?>
     <module name="turing-machine"
             xmlns="urn:ietf:params:xml:ns:yang:yin:1"
-            xmlns:yang[-turing-machine]="bla">
-      <namespace uri="bla"/>
-      <prefix value="yang[-turing-machine]"/>
-      <revision date="2015-10-28"/>
+            xmlns:tm="http://modeled.netconf/turing-machine">
+      <namespace uri="http://modeled.netconf/turing-machine"/>
+      <prefix value="tm"/>
+      <revision date="2015-10-29"/>
       <container name="turing-machine">
         <leaf name="state">
           <type name="int64"/>
@@ -634,13 +651,14 @@ again:
 .. code:: python
 
 
-    >>> TM_YANG = TM.to_yang(namespace='http://modeled.netconf/turing-machine')
+    >>> TM_YANG = TM.to_yang(
+    >>>     prefix='tm', namespace='http://modeled.netconf/turing-machine')
     >>> print(TM_YANG)
     module turing-machine {
       namespace "http://modeled.netconf/turing-machine";
       prefix tm;
     
-      revision 2015-10-28;
+      revision 2015-10-29;
     
       container turing-machine {
         leaf state {
