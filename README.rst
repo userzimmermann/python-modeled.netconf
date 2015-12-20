@@ -95,8 +95,8 @@ release from `PyPI <https://pypi.python.org>`__:
 It automatically installs all runtime requirements:
 
 
-.. code:: python
 
+.. code:: python
 
     >>> import modeled.netconf
     >>> modeled.netconf.__requires__
@@ -106,7 +106,6 @@ It automatically installs all runtime requirements:
     modeled>=0.1.8
     netconf>=0.3.1
     pyang>=1.6
-
 
 
 
@@ -151,14 +150,14 @@ more simplified and with some little structural and naming changes...
 however... let's create a modeled Turing Machine (which really works):
 
 
-.. code:: python
 
+.. code:: python
 
     import modeled
     from modeled import member
 
-.. code:: python
 
+.. code:: python
 
     class Input(modeled.object):
         """The input part of a Turing Machine program rule.
@@ -166,8 +165,8 @@ however... let's create a modeled Turing Machine (which really works):
         state = member[int]()
         symbol = member[str]()
 
-.. code:: python
 
+.. code:: python
 
     class Output(modeled.object):
         """The output part of a Turing Machine program rule.
@@ -176,8 +175,8 @@ however... let's create a modeled Turing Machine (which really works):
         symbol = member[str]()
         head_move = member[str]['L', 'R']()
 
-.. code:: python
 
+.. code:: python
 
     class Rule(modeled.object):
         """A Turing Machine program rule.
@@ -194,8 +193,8 @@ however... let's create a modeled Turing Machine (which really works):
                 **dict(input))
             self.output = Output(**dict(output))
 
-.. code:: python
 
+.. code:: python
 
     class TuringMachine(modeled.object):
         state = member[int]()
@@ -258,8 +257,8 @@ Let's define it in `YAML <http://yaml.org>`__ If you haven't installed
 ``%%file`` is an IPython magic function:
 
 
-.. code:: python
 
+.. code:: yaml
 
     %%file turing-machine-program.yaml
     
@@ -285,12 +284,12 @@ Let's define it in `YAML <http://yaml.org>`__ If you haven't installed
       - {state:    3, symbol: null}
       - {state:    4, symbol: null, head_move: R}
 
+.. code::
 
     Writing turing-machine-program.yaml
     
 
 .. code:: python
-
 
     import yaml
     with open('turing-machine-program.yaml') as f:
@@ -300,8 +299,8 @@ Let's define it in `YAML <http://yaml.org>`__ If you haven't installed
 Instantiate the Turing Machine with the loaded program...
 
 
-.. code:: python
 
+.. code:: python
 
     tm = TuringMachine(TM_PROGRAM)
 
@@ -309,8 +308,8 @@ Instantiate the Turing Machine with the loaded program...
 ... and set the initial state for computing unary **1 + 2**:
 
 
-.. code:: python
 
+.. code:: python
 
     tm.state = 0
     tm.head_position = 0
@@ -321,27 +320,29 @@ The tape string gets automatically converted to a list, becaues
 ``TuringMachine.tape`` is defined as a ``list`` member:
 
 
-.. code:: python
 
+.. code:: python
 
     >>> tm.tape
     ['1', '0', '1', '1']
 
 
 
-
 Ready for turning on the Turing Machine:
 
 
-.. code:: python
 
+.. code:: python
 
     tm.run()
 
+
 .. code:: python
 
-
     >>> print(tm.log)
+
+.. code::
+
      1011  0
      ^     --> left summand
      1011  0
@@ -366,7 +367,6 @@ Ready for turning on the Turing Machine:
     
     
 
-
 Final state is reached. Result is unary **3**. Seems to work!
 
 
@@ -380,8 +380,8 @@ Creating a YANG module from our modeled ``TuringMachine`` class is now
 as simple as importing the modeled ``YANG`` module adapter class...
 
 
-.. code:: python
 
+.. code:: python
 
     from modeled.netconf import YANG
 
@@ -391,8 +391,8 @@ which will be derived from both the ``YANG`` module adapter and the
 ``TuringMachine`` class...
 
 
-.. code:: python
 
+.. code:: python
 
     >>> YANG[TuringMachine].mro()
     [modeled.netconf.yang.YANG[TuringMachine],
@@ -407,16 +407,14 @@ which will be derived from both the ``YANG`` module adapter and the
 
 
 
-
 ... and holds a reference to the adapted modeled class:
+
 
 
 .. code:: python
 
-
     >>> YANG[TuringMachine].mclass
     __main__.TuringMachine
-
 
 
 
@@ -424,12 +422,11 @@ BTW: the class adaption will be cached, so every ``YANG[TuringMachine]``
 operation will return the same class object:
 
 
-.. code:: python
 
+.. code:: python
 
     >>> YANG[TuringMachine] is YANG[TuringMachine]
     True
-
 
 
 
@@ -462,11 +459,14 @@ The result is a complete module definition text in the given format,
 like the default YANG format...
 
 
-.. code:: python
 
+.. code:: python
 
     >>> print(YANG[TuringMachine].to_yang(
     >>>     prefix='tm', namespace='http://modeled.netconf/turing-machine'))
+
+.. code::
+
     module turing-machine {
       namespace "http://modeled.netconf/turing-machine";
       prefix tm;
@@ -521,15 +521,17 @@ like the default YANG format...
     
     
 
-
 ... or the XMLified YIN format:
+
 
 
 .. code:: python
 
-
     >>> print(YANG[TuringMachine].to_yin(
     >>>     prefix='tm', namespace='http://modeled.netconf/turing-machine'))
+
+.. code::
+
     <?xml version="1.0" encoding="UTF-8"?>
     <module name="turing-machine"
             xmlns="urn:ietf:params:xml:ns:yang:yin:1"
@@ -585,35 +587,33 @@ like the default YANG format...
     
     
 
-
 Since the modeled YANG module is derived from the adapted
 ``TuringMachine`` class, it can still be instantiated and used in the
 same way:
 
 
-.. code:: python
 
+.. code:: python
 
     tm = YANG[TuringMachine](TM_PROGRAM)
 
-.. code:: python
 
+.. code:: python
 
     tm.state = 0
     tm.head_position = 0
     tm.tape = '1011'
 
-.. code:: python
 
+.. code:: python
 
     tm.run()
 
-.. code:: python
 
+.. code:: python
 
     >>> tm.state, tm.tape
     (4, ['1', '1', '1', '0'])
-
 
 
 
@@ -627,8 +627,8 @@ controlling the Turing Machine via NETCONF. **modeled.netconf** offers a
 simple ``@rpc`` decorator for defining them:
 
 
-.. code:: python
 
+.. code:: python
 
     from modeled.netconf import rpc
 
@@ -641,8 +641,8 @@ after the modeled YANG adaption. The simplest way is to derive a new
 class for that purpose:
 
 
-.. code:: python
 
+.. code:: python
 
     class TM(YANG[TuringMachine]):
     
@@ -671,12 +671,15 @@ Python method and argument names by replacing underscores with hyphens
 again:
 
 
-.. code:: python
 
+.. code:: python
 
     >>> TM_YANG = TM.to_yang(
     >>>     prefix='tm', namespace='http://modeled.netconf/turing-machine')
     >>> print(TM_YANG)
+
+.. code::
+
     module turing-machine {
       namespace "http://modeled.netconf/turing-machine";
       prefix tm;
@@ -744,13 +747,12 @@ again:
     
     
 
-
 Now is a good time to verify if that's really correct YANG. Just write
 it to a file...
 
 
-.. code:: python
 
+.. code:: python
 
     with open('turing-machine.yang', 'w') as f:
         f.write(TM_YANG)
@@ -762,11 +764,12 @@ do it here for comparison. The leading exclamation mark is IPython
 syntax for running an external command:
 
 
-.. code:: python
 
+.. code::
 
     !pyang -f tree turing-machine.yang
 
+.. code::
 
     module: turing-machine
        +--rw turing-machine
@@ -792,7 +795,6 @@ syntax for running an external command:
        +---x run
     
 
-
 No errors. Great!
 
 
@@ -808,8 +810,8 @@ First create an instance of our final Turing Machine class with RPC
 method definitions:
 
 
-.. code:: python
 
+.. code:: python
 
     tm = TM(TM_PROGRAM)
 
@@ -819,8 +821,8 @@ Currently only serving NETCONF over
 need to specify a network port and user authentication credentials:
 
 
-.. code:: python
 
+.. code:: python
 
     PORT = 12345
     USERNAME = 'user'
@@ -838,8 +840,8 @@ generate one for you. Just name the file **key**:
     ssh-keygen -f key
 
 
-.. code:: python
 
+.. code:: python
 
     server = tm.serve_netconf_ssh(
         port=PORT, host_key='key', username=USERNAME, password=PASSWORD)
@@ -855,13 +857,13 @@ client features of **modeled.netconf** are not implemented yet, but they
 will also be based on **netconf**.
 
 
-.. code:: python
 
+.. code:: python
 
     from netconf.client import NetconfSSHSession
 
-.. code:: python
 
+.. code:: python
 
     client = NetconfSSHSession(
         'localhost', port=PORT, username=USERNAME, password=PASSWORD)
@@ -873,8 +875,8 @@ need the Turing Machine's XML namespace, but namspace handling is not
 properly supported yet by **modeled.netconf**:
 
 
-.. code:: python
 
+.. code:: python
 
     reply = client.send_rpc(
         '<initialize><tape-content>110111</tape-content></initialize>')
@@ -883,29 +885,27 @@ properly supported yet by **modeled.netconf**:
 The tape will be set accordingly:
 
 
-.. code:: python
 
+.. code:: python
 
     >>> tm.tape
     ['1', '1', '0', '1', '1', '1']
 
 
 
-
 Now run the Turing Machine via RPC:
 
 
-.. code:: python
 
+.. code:: python
 
     reply = client.send_rpc('<run/>')
 
-.. code:: python
 
+.. code:: python
 
     >>> tm.state, tm.tape
     (4, ['1', '1', '1', '1', '1', '0'])
-
 
 
 
