@@ -78,7 +78,7 @@ You can also view it online (and download it)
 Just use [pip](http://www.pip-installer.org/)
 to install the latest release from [PyPI](https://pypi.python.org):
 
-    pip install modeled.netconf
+> `pip install modeled.netconf`
 
 It automatically installs all runtime requirements:
 
@@ -100,7 +100,7 @@ pyang>=1.6
 
 To install in development mode:
 
-    pip install -e /path/to/repository/
+> `pip install -e /path/to/repository/`
 
 
 
@@ -244,7 +244,7 @@ separated by a **0**.
 Let's define it in [YAML](http://yaml.org)
 If you haven't installed [pyyaml]() yet:
 
-    pip install pyyaml
+> `pip install pyyaml`
 
 `%%file` is an IPython magic function:
 
@@ -848,7 +848,7 @@ the UNIX tool **ssh-keygen** from
 can generate one for you.
 Just name the file **key**:
 
-    ssh-keygen -f key
+> `ssh-keygen -f key`
 
 
 

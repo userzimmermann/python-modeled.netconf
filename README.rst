@@ -88,9 +88,7 @@ download it)
 Just use `pip <http://www.pip-installer.org/>`__ to install the latest
 release from `PyPI <https://pypi.python.org>`__:
 
-::
-
-    pip install modeled.netconf
+    ``pip install modeled.netconf``
 
 It automatically installs all runtime requirements:
 
@@ -111,9 +109,7 @@ It automatically installs all runtime requirements:
 
 To install in development mode:
 
-::
-
-    pip install -e /path/to/repository/
+    ``pip install -e /path/to/repository/``
 
 
 
@@ -250,9 +246,7 @@ adding to numbers in unary notation separated by a **0**.
 Let's define it in `YAML <http://yaml.org>`__ If you haven't installed
 `pyyaml <>`__ yet:
 
-::
-
-    pip install pyyaml
+    ``pip install pyyaml``
 
 ``%%file`` is an IPython magic function:
 
@@ -835,9 +829,7 @@ Windows tools like
 `PuTTY <http://www.chiark.greenend.org.uk/~sgtatham/putty>`__) can
 generate one for you. Just name the file **key**:
 
-::
-
-    ssh-keygen -f key
+    ``ssh-keygen -f key``
 
 
 
