@@ -1,6 +1,6 @@
 
 
-modeled.netconf
+MODELED.netconf
 ===============
 
 
@@ -46,7 +46,7 @@ Highly Pythonized NETCONF and YANG
 
 -  Automagically create `YANG <http://www.yang-central.org>`__ modules
    and data containers from
-   `modeled <https://pypi.python.org/pypi/modeled>`__ Python classes
+   `MODELED <https://pypi.python.org/pypi/modeled>`__ Python classes
 -  Simply turn Python methods into
    `NETCONF <http://www.netconfcentral.org>`__/YANG RPC methods using
    decorators
@@ -74,7 +74,7 @@ production ready.
 
 **INFO:** This document was automatically created from the
 `IPython <http://ipython.org>`__ notebook **README.ipynb** in the
-**modeled.netconf** repository. You can also view it online (and
+**MODELED.netconf** repository. You can also view it online (and
 download it)
 `here <http://nbviewer.ipython.org/github/userzimmermann/python-modeled.netconf/blob/master/README.ipynb>`__.
 
@@ -117,31 +117,31 @@ To install in development mode:
 
 
 
-1. From a modeled class to a YANG module
+1. From a MODELED class to a YANG module
 ========================================
 
 
 
-**modeled.netconf** is based on my
-`modeled <https://pypi.python.org/pypi/modeled>`__ framework, which
+**MODELED.netconf** is based on my
+`MODELED <https://pypi.python.org/pypi/modeled>`__ framework, which
 provides tools for defining Python classes with typed members and
 methods, quite similar to `Django <>`__ database models but with a more
 general approach. Those modeled classes can then automagically be mapped
 to data serialization formats, databases, GUI frameworks, web
 frameworks, or whatever, using the integrated ``modeled.Adapter``
-system. The **modeled** framework is still in a late alpha stage, needs
+system. The **MODELED** framework is still in a late alpha stage, needs
 some internal refactoring, and lacks documentation, but I am actively
 working on this. The basic principles should nevertheless become visible
 during the following example.
 
 
 
-A modeled Turing Machine
+A MODELED Turing Machine
 ========================
 
 
 
-Since **modeled.netconf** uses
+Since **MODELED.netconf** uses
 `pyang <https://pypi.python.org/pypi/pyang>`__ for auto-generating YANG
 definitions from modeled classes, I decided to resemble the Turing
 Machine example from the **pyang**
@@ -623,7 +623,7 @@ Adding RPC methods
 
 
 Our modeled YANG module is not very useful without some RPC methods for
-controlling the Turing Machine via NETCONF. **modeled.netconf** offers a
+controlling the Turing Machine via NETCONF. **MODELED.netconf** offers a
 simple ``@rpc`` decorator for defining them:
 
 
@@ -853,7 +853,7 @@ And that's it! The created ``server`` is an instance of Python
 thread, so it doesn't block the Python script. We can just continue with
 creating a NETCONF client which talks to the server. Let's directly use
 ``NetconfSSHSession`` from the **netconf** project for now. The Pythonic
-client features of **modeled.netconf** are not implemented yet, but they
+client features of **MODELED.netconf** are not implemented yet, but they
 will also be based on **netconf**.
 
 
@@ -872,7 +872,7 @@ will also be based on **netconf**.
 Now the Turing Machine can be remotely initialized with a NETCONF RPC
 call. Let's compute unary **2 + 3** this time. Normally this would also
 need the Turing Machine's XML namespace, but namspace handling is not
-properly supported yet by **modeled.netconf**:
+properly supported yet by **MODELED.netconf**:
 
 
 
