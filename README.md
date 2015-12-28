@@ -36,13 +36,13 @@
 * Automagically create [YANG](http://www.yang-central.org)
   modules and data containers from
   [MODELED](https://pypi.python.org/pypi/modeled) Python classes
-  [>>>]: #from-a-modeled-class-to-a-yang-module
+  [>>>](#from-a-modeled-class-to-a-yang-module)
 * Simply turn Python methods into
   [NETCONF](http://www.netconfcentral.org)/YANG RPC methods
   using decorators
-  [>>>]: #adding-rpc-methods
+  [>>>](#adding-rpc-methods)
 * Directly start NETCONF servers from modeled YANG modules
-  [>>>]: #from-modeled-yang-modules-to-a-netconf-service
+  [>>>](#from-modeled-yang-modules-to-a-netconf-service)
 
 
 * **TODO**:
@@ -60,8 +60,8 @@ and therefore not production ready.
 
 **ABOUT** this README:
 
-* It contains [setup instructions]: #setup
-  and a [tutorial]: #from-a-modeled-class-to-a-yang-module.
+* It contains [setup instructions](#setup)
+  and a [tutorial](#from-a-modeled-class-to-a-yang-module).
 * It was automatically created from
   [IPython](http://ipython.org) notebook **README.ipynb**.
   You can [view the notebook](
