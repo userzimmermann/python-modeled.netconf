@@ -4,10 +4,7 @@
 
 
 
-* https://bitbucket.org/userzimmermann/python-modeled.netconf
-* https://github.com/userzimmermann/python-modeled.netconf
-* https://gitlab.com/userzimmermann/python-modeled.netconf
-* https://www.openhub.net/p/python-modeled_netconf
+> [github.com/modeled/modeled.netconf](https://github.com/modeled/modeled.netconf)
 
 
 
@@ -22,8 +19,8 @@
 
 
 
-[![](https://travis-ci.org/userzimmermann/python-modeled.netconf.svg?branch=master)](
-  https://travis-ci.org/userzimmermann/python-modeled.netconf)
+[![](https://travis-ci.org/modeled/modeled.netconf.svg?branch=master)](
+  https://travis-ci.org/modeled/modeled.netconf)
 [![](https://ci.appveyor.com/api/projects/status/nqymmsa76qo90gdi?svg=true)](
   https://ci.appveyor.com/project/userzimmermann/python-modeled-netconf)
 
