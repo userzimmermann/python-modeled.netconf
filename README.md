@@ -15,9 +15,6 @@
   https://gnu.org/licenses/lgpl.html)
 [![](https://img.shields.io/pypi/pyversions/modeled.netconf.svg)](
   https://python.org)
-
-
-
 [![](https://img.shields.io/pypi/v/modeled.netconf.svg)](
   https://pypi.python.org/pypi/modeled.netconf)
 [![](https://img.shields.io/pypi/dd/modeled.netconf.svg)](
@@ -39,10 +36,13 @@
 * Automagically create [YANG](http://www.yang-central.org)
   modules and data containers from
   [MODELED](https://pypi.python.org/pypi/modeled) Python classes
+  [>>>]: #from-a-modeled-class-to-a-yang-module
 * Simply turn Python methods into
   [NETCONF](http://www.netconfcentral.org)/YANG RPC methods
   using decorators
+  [>>>]: #adding-rpc-methods
 * Directly start NETCONF servers from modeled YANG modules
+  [>>>]: #from-modeled-yang-modules-to-a-netconf-service
 
 
 * **TODO**:
@@ -53,25 +53,25 @@
 
 
 
-**Below you will find setup instructions and a tutorial.**
-
-
-
-**WARNING**: This project is in an early alpha state
+**WARNING**: This project is in early alpha state
 and therefore not production ready.
 
 
 
-**INFO:**
-This document was automatically created from the
-[IPython](http://ipython.org) notebook **README.ipynb**
-in the **MODELED.netconf** repository.
-You can also view it online (and download it)
-[here](http://nbviewer.ipython.org/github/userzimmermann/python-modeled.netconf/blob/master/README.ipynb).
+**ABOUT** this README:
+
+* It contains [setup instructions]: #setup
+  and a [tutorial]: #from-a-modeled-class-to-a-yang-module.
+* It was automatically created from
+  [IPython](http://ipython.org) notebook **README.ipynb**.
+  You can [view the notebook](
+    http://nbviewer.ipython.org/github/modeled/modeled.netconf/blob/master/README.ipynb)
+  online.
+* The internal links don't work on Bitbucket.
 
 
 
-## 0. Setup
+## Setup
 
 
 
@@ -104,7 +104,7 @@ To install in development mode:
 
 
 
-## 1. From a MODELED class to a YANG module
+## From a MODELED class to a YANG module
 
 
 
@@ -112,7 +112,7 @@ To install in development mode:
 [MODELED](https://pypi.python.org/pypi/modeled) framework,
 which provides tools for defining Python classes
 with typed members and methods,
-quite similar to [Django]() database models
+quite similar to [Django](https://djangoproject.com) database models,
 but with a more general approach.
 Those modeled classes can then automagically be mapped
 to data serialization formats, databases,
@@ -134,8 +134,7 @@ for auto-generating YANG definitions from modeled classes,
 I decided to resemble the Turing Machine example from the
 **pyang** [tutorial](https://github.com/mbj4668/pyang/wiki/Tutorial)...
 a bit more simplified and with some little structural and naming changes...
-however... let's create a modeled Turing Machine
-(which really works):
+however... below is a modeled Turing Machine implementation:
 
 
 
@@ -238,15 +237,15 @@ class TuringMachine(modeled.object):
 
 To check if the Turing Machine works, it needs an actual program.
 I took it from the **pyang** tutorial again.
-It's a very simple program for adding to numbers in unary notation
+It's a very simple program for adding to numbers in unary notation,
 separated by a **0**.
 
-Let's define it in [YAML](http://yaml.org)
-If you haven't installed [pyyaml]() yet:
+It can easily be defined [YAML](http://yaml.org).
+If you haven't installed [pyyaml](http://pyyaml.org/wiki/PyYAML) yet:
 
 > `pip install pyyaml`
 
-`%%file` is an IPython magic function:
+(`%%...` are IPython magic functions):
 
 
 
@@ -289,7 +288,7 @@ with open('turing-machine-program.yaml') as f:
 ```
 
 
-Instantiate the Turing Machine with the loaded program...
+Instantiate the Turing Machine with the loaded program:
 
 
 
@@ -299,7 +298,7 @@ tm = TuringMachine(TM_PROGRAM)
 ```
 
 
-... and set the initial state for computing unary **1 + 2**:
+And set the initial state for computing unary **1 + 2**:
 
 
 
@@ -312,7 +311,7 @@ tm.tape = '1011'
 
 
 The tape string gets automatically converted to a list,
-becaues `TuringMachine.tape` is defined as a `list` member:
+because `TuringMachine.tape` is defined as a `list` member:
 
 
 
@@ -371,8 +370,8 @@ Final state is reached. Result is unary **3**. Seems to work!
 
 
 
-Creating a YANG module from our modeled `TuringMachine` class
-is now as simple as importing the modeled `YANG` module adapter class...
+Creating a YANG module from the modeled `TuringMachine` class
+is now quite simple. Just import the modeled `YANG` module adapter class:
 
 
 
@@ -382,9 +381,9 @@ from modeled.netconf import YANG
 ```
 
 
-... and plug it to the `TuringMachine`.
+And plug it to the `TuringMachine`.
 This will create a new class which will be derived
-from both the `YANG` module adapter and the `TuringMachine` class...
+from both the `YANG` module adapter and the `TuringMachine` class:
 
 
 
@@ -404,7 +403,7 @@ from both the `YANG` module adapter and the `TuringMachine` class...
 
 
 
-... and holds a reference to the adapted modeled class:
+It also has a class attribute referencing the original modeled class:
 
 
 
@@ -463,7 +462,7 @@ All containers and their contents are defined configurable
 That will change soon...
 
 The result is a complete module definition text in the given format,
-like the default YANG format...
+like default YANG:
 
 
 
@@ -527,7 +526,7 @@ module turing-machine {
 }
 ```
 
-... or the XMLified YIN format:
+Or XMLified YIN:
 
 
 
@@ -630,7 +629,7 @@ tm.run()
 
 
 
-Our modeled YANG module is not very useful
+The above modeled YANG module is not very useful
 without some RPC methods for controlling the Turing Machine via NETCONF.
 **MODELED.netconf** offers a simple `@rpc` decorator
 for defining them:
@@ -758,7 +757,7 @@ module turing-machine {
 ```
 
 Now is a good time to verify if that's really correct YANG.
-Just write it to a file...
+Just write it to a file:
 
 
 
@@ -769,12 +768,11 @@ with open('turing-machine.yang', 'w') as f:
 ```
 
 
-...  and feed it to the **pyang** command.
+And feed it to the **pyang** command.
 Since the **pyang** turorial also produces
 a tree format output from its YANG Turing Machine,
-I also do it here for comparison.
-The leading exclamation mark is IPython syntax
-for running an external command:
+I also do it here for comparison
+(`!...` runs external programs in IPython):
 ```
 !pyang -f tree turing-machine.yang
 ```
@@ -808,13 +806,13 @@ No errors. Great!
 
 
 
-## 2. From modeled YANG modules to a NETCONF service
+## From modeled YANG modules to a NETCONF service
 
 
 
-Finally! Let's run a Turing Machine NETCONF server...
+Finally! Time to run a Turing Machine NETCONF server...
 
-First create an instance of our final Turing Machine class
+First create an instance of the final Turing Machine class
 with RPC method definitions:
 
 
@@ -827,7 +825,7 @@ tm = TM(TM_PROGRAM)
 
 Currently only serving NETCONF over
 [SSH](https://en.wikipedia.org/wiki/Secure_Shell) is supported.
-We need to specify a network port and user authentication credentials:
+An SSH service needs a network port and user authentication credentials:
 
 
 
@@ -839,7 +837,7 @@ PASSWORD = 'password'
 ```
 
 
-We also need an SSH key.
+And it needs an SSH key.
 If you don't have any key lying around,
 the UNIX tool **ssh-keygen** from
 [OpenSSH](http://www.openssh.com)
